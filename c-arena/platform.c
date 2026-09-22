@@ -8,6 +8,10 @@
 #include <unistd.h>
 #include <sys/mman.h>
 
+static inline void* os_remap_none(void* ptr, uint64_t size) {
+    return mmap(ptr, size, PROT_NONE, MAP_PRIVATE | MAP_ANONYMOUS | MAP_FIXED, -1, 0);
+}
+
 uint32_t plat_get_page_size(void) {
     return (uint32_t)sysconf(_SC_PAGESIZE);
 }
@@ -34,7 +38,7 @@ bool32_t plat_decommit_memory(void* ptr, uint64_t size) {
     int32_t ret;
 
     #if defined(__APPLE__)
-    ret = madvise(ptr, size, MADV_FREE); //TODO: MADV_FREE is lazy - not entirely identical to MADV_DONTNEED
+    ret = os_remap_none(ptr, size) != MAP_FAILED ? 0 : -1;
     #elif defined(__linux__)
     ret = madvise(ptr, size, MADV_DONTNEED);
     #endif

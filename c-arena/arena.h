@@ -12,6 +12,9 @@ typedef struct {
     uint64_t pos;
 } arena_mem_t;
 
+#define ARENA_BASE_POS (sizeof(arena_mem_t))
+#define ARENA_ALIGN (sizeof(void*))
+
 arena_mem_t* create_arena(uint64_t reserve_size, uint64_t commit_size);
 void destroy_arena(arena_mem_t* arena);
 void* push_arena(arena_mem_t* arena, uint64_t size, bool32_t non_zero);
