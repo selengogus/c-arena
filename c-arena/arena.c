@@ -1,4 +1,5 @@
 #include <stddef.h>
+#include <string.h>
 #include "arena.h"
 #include "platform.h"
 #include "base.h"

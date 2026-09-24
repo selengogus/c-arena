@@ -1,3 +1,6 @@
 # Compiled binaires
 main
 *.out
+*.o
+arena
+*.dSYM/
